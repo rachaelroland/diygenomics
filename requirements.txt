@@ -1,0 +1,15 @@
+fqdn==1.5.1
+ipywidgets==8.0.6
+isoduration==20.11.0
+jsonpointer==2.3
+jupyterlab==3.6.3
+langchain==0.0.154
+openai==0.27.5
+pandas==2.0.1
+pip-chill==1.0.3
+pylatexenc==2.10
+pypdf==3.8.1
+retry==0.9.2
+tiktoken==0.3.3
+uri-template==1.2.0
+webcolors==1.13
