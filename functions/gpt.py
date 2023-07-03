@@ -7,7 +7,11 @@ import time
 from retry import retry
 from retry.api import retry_call
 
-log_file = os.path.join('logs', 'chat_completion.log')
+log_dir = 'logs'
+log_file = os.path.join(log_dir, 'chat_completion.log')
+
+if not os.path.exists(log_dir):
+    os.makedirs(log_dir)
 
 if not os.path.exists(log_file):
     with open(log_file, 'w') as f:
