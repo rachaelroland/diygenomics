@@ -1,0 +1,115 @@
+ is given by
+
+$$
+\begin{aligned}
+\partial_{t} \delta \phi_{r} & =-A_{t} \delta \phi_{i}+\delta P_{r} \\
+\partial_{t} \delta \phi_{i} & =\phi_{r} \delta A_{t}+A_{t} \delta \phi_{r}+\delta P_{i} \\
+\partial_{t} \delta P_{r} & =A_{t} \phi_{r} \delta A_{t}-A_{t} \delta P_{i}-\left(z+q^{2}\right) \delta \phi_{r}-3 z^{2} \partial_{z} \delta \phi_{r}+\left(1-z^{3}\right) \partial_{z}^{2} \delta \phi_{r} \\
+\partial_{t} \delta P_{i} & =-i q \phi_{r} \delta A_{x}+A_{t} \delta P_{r}-\left(z+q^{2}\right) \delta \phi_{i}-3 z^{2} \partial_{z} \delta \phi_{i}+\left(1-z^{3}\right) \partial_{z}^{2} \delta \phi_{i} \\
+\partial_{t} \delta A_{x} & =\delta \Pi_{x}+i q \delta A_{t} \\
+\partial_{t} \delta \Pi_{x} & =2 i q \phi_{r} \delta \phi_{i}-2 \phi_{r}^{2} \delta A_{x}-3 z^{2} \partial_{z} \delta A_{x}+\left(1-z^{3}\right) \partial_{z}^{2} \delta A_{x} \\
+0 & =\left(z^{3}-1\right) \partial_{z}^{2} \delta A_{t}+3 z^{2} \partial_{z} \delta A_{t}+i q \delta \Pi_{x}-2 \phi_{r} \delta P_{i}+2 A_{t} \phi_{r} \delta \phi_{r} \\
+\partial_{t} \partial_{z} \delta A_{t} & =2 \partial_{z} \phi_{r} \delta \phi_{i}-2 \phi_{r} \partial_{z} \delta \phi_{i}+i q \partial_{z} \delta A_{x}
+\end{aligned}
+$$
+
+As before, using the source free boundary conditions for all the perturbation fields, we can obtain the temporal evolution of the perturbation fields for any given initial data by RungeKutta method, where $\delta A_{t}$ is solved by the constraint equation (5.43). The normal modes can then be identified by the peaks in the Fourier transformation of the evolving data. We demonstrate such a spectral plot in Figure 10. As expected, such a time domain analysis gives rise to the same result for the locations of normal modes as that by the frequency domain analysis.
+
+Then the dispersion relation for the gapless Goldstone can be obtained and plotted in Figure 11, whereby the sound speed $v_{s}$ can be obtained by the fitting formula $\omega_{0}=v_{s} q$. As shown in Figure 12, the sound speed increases with the chemical potential and saturate to the predicted value $\frac{1}{\sqrt{2}}$ by conformal field theory when the chemical potential is much larger than the confining scale[39,40,41], which is reasonable since it is believed that the conformality is restored in this limit.
+
+## Concluding Remarks
+
+Like any other unification in physics, AdS/CFT correspondence has proven to be a unique tool for one to address various universal behaviors of near-equilibrium as well as far-fromequilibrium dynamics for a variety of strongly coupled systems, which otherwise would be hard to attack. During such an application, numerical computation has been playing a more and more important role in the sense that not only can numerics leave us with some conjectures to develop an analytic proof and some patterns to have an analytic understanding but also brings us to the regime where the analytic treatment is not available at all.
+
+In these lecture notes, we have touched only upon the very basics for the numerics in applied AdS/CFT. In addition, we work only with the probe limit in the concrete example we make use of to demonstrate how to apply AdS/CFT with numerics. The situation will become a little bit involved when the back reaction is taken into account. Regarding this, the readers are suggested to refer to [42] to see how to obtain the stationary inhomogeneous solutions to fully back reacted Einstein equation by Einstein-DeTurck method. On the other hand, the readers are recommended to refer to [43] to see how to evolve the fully back reacted dynamics, where with a black hole as the initial data it turns out that the Eddington like coordinates are preferred to the Schwarzschild like coordinates.
+
+## Acknowledgments
+
+H.Z. would like to thank the organizers of the Eleventh International Modave Summer School on Mathematical Physics held in Modave, Belgium, September 2015, where the lectures on which these notes are based were given. He is indebted to Nabil Iqbal for his valuable discussions at the summer school. H.Z. would also like to thank the organizers of 2015 International School on Numerical Relativity and Gravitational Waves held in Daejeon, Korea, July 2015, where these lectures were geared to the audience mainly from general relativity and gravity community. He is grateful to Keun-Young Kim, Kyung Kiu Kim, Miok Park, and Sang-Jin Sin for the enjoyable conversations during the school. H.Z. is also grateful to Ben Craps and Alex Sevrin for the fantastic infrastructure they provide at HEP group of VUB and the very freedom as well as various opportunities they offer to him. M.G. is partially supported by NSFC with Grant Nos.11235003, 11375026 and NCET-12-0054. C.N. is supported by Basic Science Research Program through the National Research Foundation of Korea(NRF) funded by the Ministry of Science, ICT \\& Future Planning(NRF- 2014R1A1A1003220) and the 2015 GIST Grant for the FARE Project (Further Advancement of Research and Education at GIST College). Y.T. is partially supported by NSFC with Grant No.11475179. H.Z. is supported in part by the Belgian Federal Science Policy Office through the Interuniversity Attraction Pole P7/37, by FWO-Vlaanderen through the project G020714N, and by the Vrije Universiteit Brussel through the Strategic Research Program "High-Energy Physic". He is also an individual FWO Fellow supported by $12 \mathrm{G} 3515 \mathrm{~N}$.
+
+## References
+
+[1] E. Witten, arXiv:hep-th/0106109.
+
+[2] A. Strominger, arXiv:hep-th/0106113.
+
+[3] M. Spradlin, A. Strominger, and A. Volovich, arXiv:hep-th/0110007.
+
+[4] R. Britto, F. Cachazo, B. Feng, and E. Witten, Phys. Rev. Lett. 94 (181602)(2005).
+
+[5] N. Arkani-Hamed, F. Cachazo, and J. Kaplan, JHEP 1009, 016(2010).
+
+[6] J. Maldacena, Adv. Theor. Math. Phys. 2, 231(1998).
+
+[7] E. Witten, Adv. Theor. Math. Phys. 2, 253(1998).
+
+[8] S. Gubser, I. R. Klebanov, and A. M. Polyakov, Phys. Lett. B 428, 105(1998).
+
+[9] P. Breitenlohner and D. Z. Freedman, Annals Phys. 144, 249(1982).
+
+[10] P. Breitenlohner and D. Z. Freedman, Phys. Lett. B 115, 197(1982).
+
+[11] S. Ryu and T. Takayanagi, Phys. Rev. Lett. 96, 181602(2006). [12] V. E. Hubeny, M. Rangamani, and T. Takayanagi, JHEP 0707, 062(2007).
+
+[13] A. Lewkowycz and J. Maldacena, JHEP 08, 090(2013).
+
+[14] R. M. Wald, Living. Rev. Rel. 4, 6(2001).
+
+[15] J. D. Brown and M. Henneaux, Commun. Math. Phys. 104, 207(1986).
+
+[16] A. Strominger, JHEP 02, 009(1998).
+
+[17] J. D. Brown and J. W. York, Phys. Rev. D 47, 1407(1993).
+
+[18] V. E. Hubeny, S. Minwalla, and M. Rangamani, arXiv:1107.5780.
+
+[19] B. Swingle, Phys. Rev. D 86, 065007(2012).
+
+[20] X. L. Qi, arXiv:1309.6282.
+
+[21] J. Casalderrey-Solana, H. Liu, D. Mateos, K. Rajagopal, and U. A. Wiedemann, arXiv:1101.0618.
+
+[22] U. Gursoy, E. Kiritsis, L. Mazzanti, G. Michalogiorgakis, and F. Nitti, Lect. Notes Phys. 828, $79(2011)$.
+
+[23] S. A. Hartnoll, Class. Quant. Grav. 26, 224002(2009).
+
+[24] J. McGreevy, Adv. High Energy Phys. 2010, 723105(2010).
+
+[25] C. P. Herzog, J. Phys. A 42, 343001(2009).
+
+[26] G. T. Horowitz, arXiv:1002.1722.
+
+[27] N. Iqbal, H. Liu, and M. Mezei, arXiv:1110.3814.
+
+[28] W. J. Li, Y. Tian, and H. Zhang, JHEP 07, 030(2013).
+
+[29] N. Callebaut, B. Craps, F. Galli, D. C. Thompson, J. Vanhoof, J. Zaanen, and H. Zhang, JHEP $10,172(2014)$.
+
+[30] B. Craps, E. J. Lindgren, A. Taliotis, J. Vanhoof, and H. Zhang, Phys. Rev. D 90, 086004(2014).
+
+[31] R. Li, Y. Tian, H. Zhang, and J. Zhao, Phys. Lett. B 750, 520(2015).
+
+[32] Y. Du, C. Niu, Y. Tian, and H. Zhang, JHEP 12, 018(2015).
+
+[33] Y. Du, S. Q. Lan, Y. Tian, and H. Zhang, JHEP 01, 016(2016).
+
+[34] M. Guo, S. Q. Lan, C. Niu, Y. Tian, and H. Zhang, to appear.
+
+[35] T. Nishioka, S. Ryu, and T. Takayanagi, JHEP 1003, 131(2010).
+
+[36] X. Zhang, C. L. Hung, S. K. Tung, and C. Chin, Science 335, 1070(2012).
+
+[37] I. R. Klebanov and E. Witten, Nucl. Phys. B 556, 89(1999).
+
+[38] K. Skenderis, Class. Quant. Grav.19, 5849(2002).
+
+[39] C. P. Herzog, P. K. Kovtun, and D. T. Son, Phys. Rev. D 79, 066002(2009).
+
+[40] A. Yarom, JHEP 0907, 070(2009).
+
+[41] C. P. Herzog and A. Yarom, Phys. Rev. D 80, 106002(2009).
+
+[42] O. J. C. Dias, J. E. Santos, and B. Way, arXiv:1510.02804.
+
+[43] P. Chesler and L. G. Yaffe, JHEP 07, 086(2014).
+

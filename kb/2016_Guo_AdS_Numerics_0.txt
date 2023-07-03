@@ -1,0 +1,562 @@
+Preprint typeset in JHEP style - HYPER VERSION
+
+# Modave Lectures on Applied AdS/CFT with Numerics *
+
+\author{
+Minyong Guo \\ Department of Physics, Beijing Normal University, Beijing, 100875, China \\ minyongguo@mail. bnu.edu.cn
+
+## Chao Niu
+
+ \\ School of Physics and Chemistry, Gwangju Institute of Science and Technology, Gwangju \\ 500-712, Korea \\ chaoniu09@gmail. com}
+
+## Yu Tian
+
+School of Physics, University of Chinese Academy of Sciences, Beijing 100049, China
+
+State Key Laboratory of Theoretical Physics, Institute of Theoretical Physics, Chinese
+
+Academy of Sciences, Beijing 100190, China
+
+ytian@ucas.ac.cn
+
+Hongbao Zhang<br>Department of Physics, Beijing Normal University, Beijing, 100875, China<br>Theoretische Natuurkunde, Vrije Universiteit Brussel, and The International Solvay<br>Institutes, Pleinlaan 2, B-1050 Brussels, Belgium<br>hzhang@vub.ac. be
+
+Abstract: These lecture notes are intended to serve as an introduction to applied AdS/CFT with numerics for an audience of graduate students and others with little background in the subject. The presentation begins with a poor man's review of current status of quantum gravity, where AdS/CFT correspondence is believed to be the well formulated quantum gravity in the anti-de Sitter space. Then we present the basic ingredients in applied AdS/CFT and introduce the relevant numerics for solving differential equations into which the bulk dynamics collapses. To demonstrate how to apply AdS/CFT with numerics, we take the zero temperature holographic superfluid as a concrete example for case study. In passing, we also present some new results, which include the numerical evidence as well as an elegant analytic proof for the equality between the superfluid density and particle density, namely $\rho_{s}=\rho$, and the saturation to the predicted value $\frac{1}{\sqrt{2}}$ by conformal field theory for the sound speed in the large chemical potential limit.
+
+${ }^{*}$ Based on the series of lectures given by Hongbao Zhang at the Eleventh International Modave Summer School on Mathematical Physics, held in Modave, Belgium, September 2015.
+
+## Contents
+
+1. Introduction 1
+2. Quantum Gravity 2
+
+2.1 De Sitter space: Meta-observables $\quad 3$
+
+2.2 Minkowski space: S-Matrix program 4
+
+2.3 Anti-de Sitter space: AdS/CFT correspondence 6
+
+3. Applied AdS/CFT $\quad 6$
+
+3.1 What AdS/CFT is $\quad 6$
+
+3.2 Why AdS/CFT is reliable 8
+
+3.3 How useful AdS/CFT is $\quad 9$
+
+4. Numerics for Solving Differential Equations $\quad 9$
+
+4.1 Newton-Raphson method $\quad 10$
+
+4.2 Pseudo-spectral method $\quad 10$
+
+4.3 Runge-Kutta method 11
+
+5. Holographic Superfluid at Zero Temperature 12
+
+5.1 Variation of action, Boundary terms, and Choice of ensemble 12
+
+5.2 Asymptotic expansion, Counter terms, and Holographic renormalization 13
+
+5.3 Background solution, Free energy, and Phase transition $\quad 13$
+
+5.4 Linear response theory, Optical conductivity, and Superfluid density $\quad 16$
+
+5.5 Time domain analysis, Normal modes, and Sound speed 19
+
+6. Concluding Remarks 21
+
+## Introduction
+
+Different from the other more formal topics in this summer school, the emphasis of these lectures is on the applications of AdS/CFT correspondence and the involved numerical techniques. As theoretical physicists, we generically have a theory, or a paradigm as simple as possible, but the real world is always highly sophisticated. So it is usually not sufficient for us to play only with our analytical techniques when we try to have a better understanding of the rich world by our beautiful theory. This is how computational physics comes in the lives of theoretical physicists. AdS/CFT correspondence, as an explicit holographic implementation of quantum gravity in anti-de Sitter space, has recently emerged as a powerful tool for one to address some universal behaviors of strongly coupled many body systems, which otherwise would not be amenable to the conventional approaches. Furthermore, applied AdS/CFT has been entering the era of Computational Holography, where numerics plays a more and more important role in such ongoing endeavors. Implementing those well developed techniques in Numerical Relativity is highly desirable but generically required to be geared since AdS has its own difficulties. In the course of attacking these unique difficulties, some new numerical schemes and computational techniques have also been devised. These lectures are intended as a basic introduction to the necessary numerics in applied AdS/CFT in particular for those beginning practitioners in this active field. Hopefully in the end, the readers can appreciate the significance of numerics in connecting AdS/CFT to the real world at least as we do.
+
+The outline of these lecture notes is the following. In the next section, we shall first present a poor man's review of the current status for quantum gravity, where AdS/CFT stands out as the well formulated quantum gravity in anti-de Sitter space. Then we provide a brief introduction to applied AdS/CFT in Section 3, which includes what AdS/CFT is, why AdS/CFT is reliable, and how useful AdS/CFT is. In Section 4, we shall present the main numerical methods for solving differential equations, which is supposed to be the central task in applied AdS/CFT. Then we take the zero temperature holographic superfluid as a concrete application of AdS/CFT with numerics in Section 5, where not only will some relevant concepts be introduced but also some new results will be presented for the first time. We conclude these lecture notes with some remarks in the end.
+
+## Quantum Gravity
+
+The very theme in physics is to unify a variety of seemingly distinct phenomena by as a few principles as possible, which can help us to build up a sense of safety while being faced up with the unknown world. This may be regarded as another contribution of the unification in physics to our society on top of its various induced technology innovations. With a series of achievements along the road to unification in physics, we now end up with the two distinct entities, namely quantum field theory and general relativity.
+
+As we know, quantum field theory is a powerful framework for us to understand a huge range of phenomena in Nature such as high energy physics and condensed matter physics. Although the underlying philosophies are different, they share quantum field theory as their common language. In high energy physics, the philosophy is reductionism, where the goal is to figure out the UV physics for our effective low energy IR physics. The standard model for particle physics is believed to be an effective low energy theory. To see what really happens at UV, we are required to go beyond the standard model by reaching a higher energy scale. This is the reason why we built LHC in Geneva. This is also the reason why we plan to go to the Great Collider from the Great Wall in China. While in condensed matter physics, the philosophy is emergence. Actually we have a theory of everything for condensed matter physics, namely QED, or the Schrodinger equation for electrons with Coulomb interaction
+
+![](https://cdn.mathpix.com/cropped/2023_06_01_e4e21f7112268ec22c17g-04.jpg?height=613&width=1001&top_left_y=279&top_left_x=562)
+
+Figure 1: The Penrose diagram for the global de Sitter space, where the planar de Sitter space associated with the observer located at the south pole is given by the shaded portion.
+
+among them. What condensed matter physicists are concerned with is how to engineer various low temperature IR fixed points, namely various phases from such a known UV theory. Such a variety of phases gives rise to a man-made multiverse, which is actually resonant to the landscape suggested by string theory.
+
+On the other hand, general relativity tells us that gravity is geometry. Gravity is different, so subtle is gravity. The very longstanding issue in fundamental physics is trying to reconcile general relativity with quantum field theory. People like to give a name to it, called Quantum Gravity although we have not fully succeeded along this lane. Here is a poor man's perspective into the current status of quantum gravity, depending on the asymptotic geometry of spacetime ${ }^{1}$. The reason is twofold. First, due to the existence of Planck scale $l_{p}=\left(\frac{G \hbar}{c^{3}}\right)^{\frac{1}{d-1}}$, spacetime is doomed such that one can not define local field operators in a $d+1$ dimensional gravitational theory. Instead, the observables can live only on the boundary of spacetime. Second, it is the dependence on the asymptopia that embodies the background independence of quantum gravity.
+
+### De Sitter space: Meta-observables
+
+If the spacetime is asymptotically de Sitter as
+
+$$
+d s^{2}=-d t^{2}+l^{2} \cosh ^{2} \frac{t}{l} d \Omega_{d}^{2}
+$$
+
+when $t \rightarrow \pm \infty$, then by the coordinate transformation $u=2 \tan ^{-1} e^{\frac{t}{l}}$, the metric becomes
+
+$$
+d s^{2}=\frac{l^{2}}{\sin ^{2} u}\left(d u^{2}+d \chi^{2}+\sin ^{2} \chi d \Omega_{d-1}^{2}\right)
+$$
+
+${ }^{1}$ This is a poor man's perspective because we shall try our best not to touch upon string theory although it is evident that this perspective is well shaped by string theory in a direct or indirect way throughout these lecture notes. with $\chi$ the polar angle for the $d$-sphere. We plot the Penrose diagram in Figure 1 for de Sitter space. Whence both the past and future conformal infinity $\mathscr{I}^{\mp}$ are spacelike. As a result, any observer can only detect and influence portion of the whole spacetime. Moreover, any point in $\mathscr{I}^{+}$is causally connected by a null geodesic to its antipodal point in $\mathscr{I}^{-}$for de Sitter. In view of this, Witten has proposed the meta-observables for quantum gravity in de Sitter space, namely
+
+$$
+\langle f \mid i\rangle=\int_{g_{i}}^{g_{f}} D g e^{i S[g]}
+$$
+
+with $g_{f}$ and $g_{i}$ a set of data specified on $\mathscr{I}^{ \pm}$respectively. Then one can construct the Hilbert space $H_{i}$ at $\mathscr{I}^{-}$for quantum gravity in de Sitter space with the inner product $(j, i)=\langle\Theta j \mid i\rangle$ by CPT transformation $\Theta$. The Hilbert space $H_{f}$ at $\mathscr{I}^{+}$can be constructed in a similar fashion. At the perturbative level, the dimension of Hilbert space for quantum gravity in de Sitter is infinite, which is evident from the past-future singularity of the meta-correlation functions at those points connected by the aforementioned null geodesics. But it is suspected that the non-perturbative dimension of Hilbert space is supposed to be finite. This is all one can say with such mata-observables[1].
+
+However, there are also different but more optimistic perspectives. Among others, inspired by AdS/CFT, Strominger has proposed DS/CFT correspondence. First, with $\mathscr{I}^{+}$ identified as $\mathscr{I}^{-}$by the above null geodesics, the dual CFT lives only on one sphere rather than two spheres. Second, instead of working with the global de Sitter space, DS/CFT correspondence can be naturally formulated in the causal past of any given observer, where the bulk spacetime is the planar de Sitter and the dual CFT lives on $\mathscr{I}^{-}$. For details, the readers are referred to Strominger's original paper as well as his Les Houches lectures[2, 3].
+
+### Minkowski space: S-Matrix program
+
+The situation is much better if the spacetime is asymptotically flat. As the Penrose diagram for Minkowski space shows in Figure 2, the conformal infinity is lightlike. In this case, the only observable is scattering amplitude, abbreviated as S-Matrix, which connects the out states at $\mathscr{I}^{+}$to the in states at $\mathscr{I}^{-2}$. One can claim to have a well defined quantum gravity in asymptotically flat space once a sensible recipe is made for the computation of S-Matrix with gravitons. Actually, inspired by BCFW recursion relation[4], there has been much progress achieved over the last few years along this direction by the so called S-Matrix program, in which the scattering amplitude is constructed without the local Lagrangian, resonant to the non-locality of quantum gravity[5]. Traditionally, S-Matrix is computed by the Feynman diagram techniques, where the Feynman rules come from the local Lagrangian. But the computation becomes more and more complicated when the scattering process involves either more external legs or higher loops. While in the S-Matrix program the recipe for the
+
+${ }^{2}$ Here we are concerned with the scattering amplitude for massless particles, including gravitons, since they are believed to be more fundamental than massive particles. But nevertheless by taking into account the data at $i^{ \pm}$, the scattering amplitude with massive particles involved can still be constructed in principle as it should be the case.
+
+![](https://cdn.mathpix.com/cropped/2023_06_01_e4e21f7112268ec22c17g-06.jpg?height=759&width=423&top_left_y=287&top_left_x=859)
+
+Figure 2: The Penrose diagram for Minkowski space, where massless particles will always emanate from $\mathscr{I}^{-}$and end at $\mathscr{I}^{+}$.
+
+![](https://cdn.mathpix.com/cropped/2023_06_01_e4e21f7112268ec22c17g-06.jpg?height=548&width=523&top_left_y=1325&top_left_x=839)
+
+Figure 3: The Penrose diagram for the global anti-de Sitter space, where the conformal infinity $\mathscr{I}$ itself can be a spacetime on which the dynamics can live.
+
+computation of scattering amplitude, made out of the universal properties of S-Matrix, such as Poincare or BMS symmetry, unitarity and analyticity of S-Matrix, turns out to be far more efficient. It is expected that such an ongoing S-Matrix program will lead us eventually towards a well formulated quantum gravity in asymptotically flat space.
+
+### Anti-de Sitter space: AdS/CFT correspondence
+
+The best situation is for the spacetime which is asymptotically anti-de Sitter as
+
+$$
+d s^{2}=\frac{l^{2}}{\cos ^{2} \chi}\left(-d t^{2}+d \chi^{2}+\sin ^{2} \chi d \Omega_{d-1}^{2}\right)
+$$
+
+with $\chi \in\left[0, \frac{\pi}{2}\right)$. As seen from the Penrose diagram for anti-de Sitter space in Figure 3, the conformal infinity $\mathscr{I}$ is timelike in this case, where we can have a well formulated quantum theory for gravity by AdS/CFT correspondence $[6,7,8]$. Namely the quantum gravity in the bulk $\mathrm{AdS}_{d+1}$ can be holographically formulated in terms of $\mathrm{CFT}_{d}$ on the boundary without gravity and vice versa. We shall elaborate on AdS/CFT in the subsequent section. Here we would like to mention one very interesting feature about AdS/CFT, that is to say, generically we have no local Lagrangian for the dual CFT, which echoes the aforementioned S-Matrix program somehow.
+
+## Applied AdS/CFT
+
+### What AdS/CFT is
+
+To be a little bit more precise about what AdS/CFT is, let us first recall the very basic object in quantum field theory, namely the generating functional, which is defined as
+
+$$
+Z_{d}[J]=\ln \left[\int D \Psi e^{i S_{d}[\Psi]+\int d^{d} x J O}\right]
+$$
+
+Whence one can obtain the $n$-point correlation function for the operator $O$ by taking the $n$-th functional derivative of the generating functional with respect to the source $J$. For example,
+
+$$
+\begin{aligned}
+& \langle O(x)\rangle=\frac{\delta Z_{d}}{\delta J(x)}, \\
+& \left\langle O\left(x_{1}\right) O\left(x_{2}\right)\right\rangle=\frac{\delta^{2} Z_{d}}{\delta J\left(x_{1}\right) \delta J\left(x_{2}\right)}=\frac{\delta O\left(x_{1}\right)}{\delta J\left(x_{2}\right)}.
+\end{aligned}
+$$
+
+As we know, we can obtain such a generating functional by perturbative expansion using the Feynman diagram techniques for weakling coupled quantum field theory, but obviously such a perturbation method breaks down when the involved quantum field theory is strongly coupled except one can find its weak dual. AdS/CFT provides us with such a dual for strongly coupled quantum field theory by a classical gravitational theory with one extra dimension. So now let us turn to general relativity, where the basic object is the action given by
+
+$$
+S_{d+1}=\frac{1}{16 \pi G} \int d^{d+1} x \sqrt{-g}\left(R+\frac{d(d-1)}{l^{2}}+L_{\text {matter }}\right)
+$$
+
+for AdS gravity. Here for the present illustration and later usage, we would like to choose the Lagrangian for the matter fields as
+
+$$
+L_{\text {matter }}=\frac{l^{2}}{Q^{2}}\left(-\frac{1}{4} F^{a b} F_{a b}-|D \Phi|^{2}-m^{2}|\Phi|^{2}\right)
+$$
+
+with $F=d A, D=\nabla-i A$ and $Q$ the charge of complex scalar field. The variation of action gives rise to the equations of motion as follows
+
+$$
+\begin{aligned}
+& G_{a b}-\frac{d(d-1)}{2 l^{2}} g_{a b}=\frac{l^{2}}{Q^{2}}\left[F_{a c} F_{b}^{c}+2 D_{a} \Phi D_{b} \Phi-\left(\frac{1}{4} F_{c d} F^{c d}+|D \Phi|^{2}+m^{2}|\Phi|^{2}\right) g_{a b}\right] \\
+& \nabla_{a} F^{a b}=i\left(\bar{\Phi} D^{b} \Phi-\Phi \overline{D^{b} \Phi}\right) \\
+& D_{a} D^{a} \Phi-m^{2} \Phi=0
+\end{aligned}
+$$
+
+Note that the equations of motion are generically second order PDEs. So to extrapolate the bulk solution from the AdS boundary, one is required to specify a pair of boundary conditions for each bulk field at the conformal boundary of AdS, which can be read off from the asymptotical behavior for the bulk fields near the AdS boundary
+
+$$
+\begin{aligned}
+& d s^{2} \rightarrow \frac{l^{2}}{z^{2}}\left[d z^{2}+\left(\gamma_{\mu \nu}+t_{\mu \nu} z^{d}\right) d x^{\mu} d x^{\nu}\right] \\
+& A_{\mu} \rightarrow a_{\mu}+b_{\mu} z^{d-2} \\
+& \Phi \rightarrow \phi_{-} z^{\Delta_{-}}+\phi_{+} z^{\Delta_{+}}
+\end{aligned}
+$$
+
+with $\Delta_{ \pm}=\frac{d}{2} \pm \sqrt{\frac{d^{2}}{4}+m^{2} l^{2}} 3$. Namely $\left(\gamma_{\mu \nu}, t_{\mu \nu}\right)$ are the boundary data for the bulk metric field, $\left(a_{\mu}, b_{\mu}\right)$ for the bulk gauge field, and $\left(\phi_{-}, \phi_{+}\right)$for the bulk scalar field. But such pairs usually lead to singular solutions deep into the bulk. To avoid these singular solutions, one can instead specify the only one boundary condition from each pair such as $\left(\gamma_{\mu \nu}, a_{\mu}, \phi_{-}\right)$. We denote these boundary data by $J$, whose justification will be obvious later on. At the same time we also require the regularity of the desired solution in the bulk. In this sense, the regular solution is uniquely determined by the boundary data $J$. Thus the on-shell action from the regular solution will be a functional of $J$.
+
+What AdS/CFT tells us is that this on-shell action in the bulk can be identified as the generating functional for strongly coupled quantum field theory living on the boundary, i.e.,
+
+$$
+Z_{d}[J]=S_{d+1}[J]
+$$
+
+where apparently $J$ has a dual meaning, not only serving as the source for the boundary quantum field theory but also being the boundary data for the bulk fields. In particular, $\gamma_{\mu \nu}$ sources the operator for the boundary energy momentum tensor whose expectation value is given by (3.3) as $t^{\mu \nu}, a_{\mu}$ sources a global $U(1)$ conserved current operator whose expectation value is given as $b^{\mu}$, and the expectation value for the operator dual to the source $\phi_{-}$is given as $\overline{\phi_{+}}$up to a possible proportional coefficient. The conformal dimension for these dual operators can be read off from (3.9) by making the scaling transformation $\left(z, x^{\mu}\right) \rightarrow\left(\alpha z, \alpha x^{\mu}\right)$ as $d, d-1$, and $\Delta_{+}$individually.
+
+${ }^{3}$ Here we are working with the axial gauge for the bulk metric and gauge fields, which can always been achieved. In addition, although the mass square is allowed to be negative in the AdS it can not be below the $\mathrm{BF}$ bound $-\frac{d^{2}}{4 l^{2}}[9,10]$ Here is a caveat on the validity of (3.12). Although such a boundary/bulk duality is believed to hold in more general circumstances, (3.12) works for the large $N$ strongly coupled quantum field theory on the boundary where $N$ and the coupling parameter of the dual
+
+quantum field theory are generically proportional to some powers of $\frac{l}{l_{p}}$ and $\frac{l}{l_{s}}$, respectively. In order to capture the $\frac{1}{N}$ correction to the dual quantum field theory by holography, one is required to calculate the one-loop partition function on top of the classical background solution in the bulk. On the other hand, to see the finite coupling effect in the dual quantum field theory by holography, one is required to work with higher derivative gravity theory in the bulk. But in what follows, for simplicity we shall work exclusively with (3.12) in its applicability regime.
+
+Among others, we would like to conclude this subsection with the three important implications of AdS/CFT. First, a finite temperature quantum field theory at finite chemical potential is dual to a charged black hole in the bulk. Second, the entanglement entropy of the dual quantum field theory can be calculated by holography as the the area of the bulk minimal surface anchored onto the entangling surface[11, 12, 13]. Third, the extra bulk dimension represents the renormalization group flow direction for the boundary quantum field theory with AdS boundary as UV, although the renormalization scheme is supposed to be different from the conventional one implemented in quantum field theory ${ }^{4}$.
+
+### Why AdS/CFT is reliable
+
+But why AdS/CFT is reliable? In fact, besides its explicit implementations in string theory such as the duality between Type IIB string theory in $A d S_{5} \times S^{5}$ and $\mathcal{N}=4$ SYM theory on the four dimensional boundary, where some results can be computed on both sides and turn out to match each other, there exist many hints from the inside of general relativity indicating that gravity is holographic. Here we simply list some of them as follows.
+
+- Bekenstein-Hawking's black hole entropy formula $S_{B H}=\frac{A}{4 l_{p}^{d-1}}[14]$.
+- Brown-Henneaux's asymptotic symmetry analysis for three dimensional gravity[15], where the derived central charge $\frac{3 l}{2 G}$ successfully reproduces the black hole entropy by the Cardy formula for conformal field theory[16].
+- Brown-York's surface tensor formulation of quasi local energy and conserved charges[17]. Once we are brave enough to declare that this surface tensor be not only for the purpose of the bulk gravity but also for a certain system living on the boundary, we shall end up with the long wave limit of AdS/CFT, namely the gravity/fluid correspondence, which has been well tested[18].
+
+On the other hand, we can also see how such an extra bulk dimension emerges from quantum field theory perspective. In particular, inspired by Swingle's seminal work on the connection between the MERA tensor network state for quantum critical systems and AdS
+
+${ }^{4}$ This implication is sometimes dubbed as $R G=G R$. space[19], Qi has recently proposed an exact holographic mapping to generate the bulk Hilbert space of the same dimension from the boundary Hilbert space[20], which echoes the aforementioned renormalization group flow implication of AdS/CFT.
+
+Keeping all of these in mind, we shall take AdS/CFT as a first principle and explore its various applications in what follows.
+
+### How useful AdS/CFT is
+
+As alluded to above, AdS/CFT is naturally suited for us to address strongly coupled dynamics and non-equilibrium processes by mapping the involved hard quantum many body problems to classical few body problems. There are two approaches towards the construction of holographic models. One is called the top-down approach, where the microscopic content of the dual boundary theory is generically known because the construction originates in string theory. The other is called the bottom-up approach, which can be regarded as kind of effective field theory with one extra dimension for the dual boundary theory.
+
+By either approach, we can apply AdS/CFT to $\mathrm{QCD}$ as well as the QCD underlying quark-gluon plasma, ending up with $\operatorname{AdS} / \mathrm{QCD}[21,22]$. On the other hand, taking into account that there are a bunch of strongly coupled systems in condensed matter physics such as high $\mathrm{T}_{c}$ superconductor, liquid Helium, and non-Fermi liquid, we can also apply AdS/CFT to condensed matter physics, ending up with $\operatorname{AdS} / \mathrm{CMT}[23,24,25,26,27]$. Note that the bulk dynamics boils eventually down to a set of differential equations, whose solutions are generically not amenable to an analytic treatment. So one of the central tasks in applied $\mathrm{AdS} / \mathrm{CFT}$ is to find the numerical solutions to differential equations. In the next section, we shall provide a basic introduction to the main numerical methods for solving differential equations in applied AdS/CFT.
+
+## Numerics for Solving Differential Equations
+
+Roughly speaking, there are three numerical schemes to solve differential equations by transforming them into algebraic equations, namely finite different method, finite element method, and spectral method. According to our experience with the numerics in applied AdS/CFT, it is favorable to make a code from scratch for each problem you are faced up with. In particular, the variant of spectral method, namely pseudo-spectral method turns out to be most efficient in solving differential equations along the space direction where Newton-Raphson iteration method is extensively employed if the resultant algebraic equations are non-linear. On the other hand, finite difference method such as Runge-Kutta method is usually used to deal with the dynamical evolution along the time direction. So now we like to elaborate a little bit on Newton-Raphson method, pseudo-spectral method, as well as Runge-Kutta method one by one.
+
+![](https://cdn.mathpix.com/cropped/2023_06_01_e4e21f7112268ec22c17g-11.jpg?height=830&width=1022&top_left_y=279&top_left_x=538)
+
+Figure 4: Newton-Raphson iteration map is used to find the rightmost root for a non-linear algebraic equation.
+
+### Newton-Raphson method
+
+To find the desired root for a given non-linear function $f(x)$, we can start with a wisely guessed initial point $x_{k}$. Then as shown in Figure 4 by Newton-Raphson iteration map, we hit the next point $x_{k+1}$ as
+
+$$
+x_{k+1}=x_{k}-f^{\prime}\left(x_{k}\right)^{-1} f\left(x_{k}\right)
+$$
+
+which is supposed to be closer to the desired root. By a finite number of iterations, we eventually end up with a good approximation to the desired root. If we are required to find the root for a group of non-linear functions $F(X)$, then the iteration map is given by
+
+$$
+X_{k+1}=X_{k}-\left.\left[\left(\frac{\partial F}{\partial X}\right)^{-1} F\right]\right|_{X_{k}}
+$$
+
+where the formidable Jacobian can be tamed by Taylor expansion trick since the expansion coefficient of the linear term is simply the Jacobian in Taylor expansion $F(X)=F\left(X_{0}\right)+$ $\left.\frac{\partial F}{\partial X}\right|_{X_{0}}\left(X-X_{0}\right)+\cdots$
+
+### Pseudo-spectral method
+
+As we know, we can expand an analytic function in terms of a set of appropriate spectral functions as
+
+$$
+f(x)=\sum_{n=1}^{N} c_{n} T_{n}(x)
+$$
+
+with $N$ some truncation number, depending on the numerical accuracy you want to achieve. Then the derivative of this function is given by
+
+$$
+f^{\prime}(x)=\sum_{n=1}^{N} c_{n} T_{n}^{\prime}(x).
+$$
+
+Whence the derivatives at the collocation points can be obtained from the values of this function at these points by the following differential matrix as
+
+$$
+f^{\prime}\left(x_{i}\right)=\sum_{j} D_{i j} f\left(x_{j}\right)
+$$
+
+where the matrix $D=T^{\prime} T^{-1}$ with $T_{i n}=T_{n}\left(x_{i}\right)$ and $T_{i n}^{\prime}=T_{n}^{\prime}\left(x_{i}\right)$. With this differential matrix, the differential equation in consideration can be massaged into a group of algebraic equations for us to solve the unknown $f\left(x_{i}\right)$ by requiring that both the equation hold at the collocation points and the prescribed boundary conditions be satisfied.
+
+This is the underlying idea for pseudo-spectral method. Among others, we would like to point out the two very advantages of pseudo-spectral method, compared to finite difference method and finite element method. First, one can find the interpolating function for $f(x)$ by the built-in procedure as follows
+
+$$
+f(x)=\sum_{n, i} T_{n}(x) T_{n i}^{-1} f\left(x_{i}\right)
+$$
+
+Second, the numerical error decays exponentially with the truncation number $N$ rather than the power law decay followed by the other two methods.
+
+### Runge-Kutta method
+
+As mentioned before, we should employ finite difference method to march along the time direction. But before that, we are required to massage the involved differential equation into the following ordinary differential equation
+
+$$
+\dot{y}=f(y, t)
+$$
+
+which is actually the key step for one to investigate the temporal evolution in applied AdS/CFT. Once this non-trivial step is achieved, then there are a bunch of finite difference schemes available for one to move forward. Among others, here we simply present the classical fourth order Runge-Kutta method as follows
+
+$$
+\begin{aligned}
+k_{1} & =f\left(y_{i}, t_{i}\right) \\
+k_{2} & =f\left(y_{i}+\frac{\Delta t}{2} k_{1}, t_{i}+\frac{\Delta t}{2}\right) \\
+k_{3} & =f\left(y_{i}+\frac{\Delta t}{2} k_{2}, t_{i}+\frac{\Delta t}{2}\right) \\
+k_{4} & =f\left(y_{i}+\Delta t k_{3}, t_{i}+\Delta t\right) \\
+t_{i+1} & =t_{i}+\Delta t, y_{i+1}=y_{i}+\frac{\Delta t}{6}\left(k_{1}+2 k_{2}+2 k_{3}+k_{4}\right),
+\end{aligned}
+$$
+
+because it is user friendly and applicable to all the temporal evolution problems we have been considered so $\operatorname{far}[28,29,30,31,32,33]^{5}$.
+
+## Holographic Superfluid at Zero Temperature
+
+In this section, we would like to take the zero temperature holographic superfluid as an concrete example to demonstrate how to apply AdS/CFT with numerics. In due course, not only shall we introduce some relevant concepts, but also present some new results[34].
+
+The action for the simplest model of holographic superfluid is just given by (3.4). To make our life easier, we shall work with the probe limit, namely the back reaction of matter fields onto the metric is neglected, which can be achieved by taking the large $Q$ limit. Thus we can put the matter fields on top of the background which is the solution to the vacuum Einstein equation with a negative cosmological constant $\Lambda=-\frac{d(d-1)}{2 l^{2}}$. For simplicity, we shall focus only on the zero temperature holographic superfluid, which can be implemented by choosing the AdS soliton as the bulk geometry[35], i.e.,
+
+$$
+d s^{2}=\frac{l^{2}}{z^{2}}\left[-d t^{2}+d \mathbf{x}^{2}+\frac{d z^{2}}{f(z)}+f(z) d \theta^{2}\right]
+$$
+
+Here $f(z)=1-\left(\frac{z}{z_{0}}\right)^{d}$ with $z=z_{0}$ the tip where our geometry caps off and $z=0$ the AdS boundary. To guarantee the smooth geometry at the tip, we are required to impose the periodicity $\frac{4 \pi z_{0}}{3}$ onto the $\theta$ coordinate. The inverse of this periodicity set by $z_{0}$ is usually interpreted as the confining scale for the dual boundary theory.
+
+In what follows, we will take the units in which $l=1,16 \pi G Q^{2}=1$, and $z_{0}=1$. In addition, we shall focus exclusively on the action of matter fields because the leading $Q^{0}$ contribution has been frozen by the above fixed background geometry.
+
+### Variation of action, Boundary terms, and Choice of ensemble
+
+The variational principle gives rise to the equations of motion if and only if the boundary terms vanish in the variation of action. For our model, the variation of action is given by
+
+$$
+\begin{aligned}
+\delta S= & \int d^{d+1} x \sqrt{-g}\left[\nabla_{a} F^{a b}+i\left(\Phi \overline{D^{b} \Phi}-\bar{\Phi} D^{b} \Phi\right)\right] \delta A_{b}-\int d^{d} x \sqrt{-h} n_{a} F^{a b} \delta A_{b}+ \\
+& {\left[\left(\int d^{d+1} x \sqrt{-g} \overline{\left(D_{a} D^{a}-m^{2}\right) \Phi} \delta \Phi-\int d^{d} x \sqrt{-h} n_{a} \overline{D^{a} \Phi} \delta \Phi\right)+C. C.\right]. }
+\end{aligned}
+$$
+
+To make the boundary terms vanish, we can fix $A_{b}$ and $\Phi$ on the boundary. Fixing $A_{b}$ amounts to saying that we are working with the grand canonical ensemble. In order to work with the canonical ensemble where $\sqrt{-h} n_{a} F^{a b}$ is fixed instead, we are required to add the additional boundary term $\int d^{3} x \sqrt{-h} n_{a} F^{a b} A_{b}$ to the action, which is essentially the Legendre transformation. On the other hand, fixing $\phi_{-}$gives rise to the standard quantization. We can
+
+${ }^{5}$ It is worthwhile to keep in mind that the accumulated numerical error is of order $O\left(\Delta t^{4}\right)$ for this classical Runge-Kutta method. also have an alternative quantization by fixing $\phi_{+}$when $-\frac{d^{2}}{4}<m^{2}<-\frac{d^{2}}{4}+1$ [37]. In what follows, we shall restrict our attention onto the grand canonical ensemble and the standard quantization for the case of $d=3$ and $m^{2}=-2$, whereby $\Delta_{-}=1$ and $\Delta_{+}=2$.
+
+### Asymptotic expansion, Counter terms, and Holographic renormalization
+
+What we care about is the on-shell action, which can be shown to have IR divergence generically in the bulk by the asymptotic expansion near the AdS boundary, corresponding to the UV divergence for the dual boundary theory. The procedure to make the on-shell action finite by adding some appropriate counter terms is called holographic renormalization[38]. For our case, the on-shell action is given by
+
+$$
+\begin{aligned}
+S_{\text {on-shell }}= & \frac{1}{2}\left[\int d^{4} x \sqrt{-g}\left(\nabla_{a} F^{a b}\right) A_{b}-\int d^{3} x \sqrt{-h} n_{a} F^{a b} A_{b}\right]+ \\
+& \frac{1}{2}\left[\left(\int d^{4} x \sqrt{-g} \Phi \overline{\left(D_{a} D^{a}-m^{2}\right) \Phi}-\int d^{3} x \sqrt{-h} n_{a} \overline{D^{a} \Phi} \Phi\right)+C. C.\right] \\
+= & \frac{1}{2}\left[\int d^{4} x \sqrt{-g} i\left(\bar{\Phi} D^{b} \Phi-\Phi \overline{D^{b} \Phi}\right) A_{b}-\int d^{3} x \sqrt{-h} n_{a} F^{a b} A_{b}\right]- \\
+& \frac{1}{2}\left(\int d^{3} x \sqrt{-h} n_{a} \overline{D^{a} \Phi} \Phi+C. C.\right).
+\end{aligned}
+$$
+
+By the asymptotic expansion in (3.10) and (3.11), the divergence comes only from the last two boundary terms and can be read off as $\frac{\left|\phi_{-}\right|^{2}}{z} 6$. So the holographic renormalization can be readily achieved by adding the boundary term $-\int d^{3} x \sqrt{-h}|\Phi|^{2}$ to the original action. Whence we have
+
+$$
+\begin{aligned}
+\left\langle j^{\mu}\right\rangle & =\frac{\delta S_{r e n}}{\delta a_{\mu}}=b^{\mu} \\
+\langle O\rangle & =\frac{\delta S_{r e n}}{\delta \phi_{-}}=\overline{\phi_{+}}
+\end{aligned}
+$$
+
+where $j^{\mu}$ corresponds to the conserved particle current and the expectation value for the scalar operator $O$ is interpreted as the condensate order parameter of superfluid. If this scalar operator acquires a nonzero expectation value spontaneously in the situation where the source is turned off, the boundary system is driven into a superfluid phase.
+
+### Background solution, Free energy, and Phase transition
+
+With the assumption that the non-vanishing bulk matter fields $\left(\Phi=z \phi, A_{t}, A_{x}\right)$ do not depend on the coordinate $\theta$, the equations of motion can be explicitly written as
+
+${ }^{6}$ Note that the outward normal vector is given by $n^{a}=-z\left(\frac{\partial}{\partial z}\right)^{a}$.
+
+$$
+\begin{aligned}
+0= & \partial_{t}^{2} \phi+\left(z+A_{x}^{2}-A_{t}^{2}+i \partial_{x} A_{x}-i \partial_{t} A_{t}\right) \phi+2 i A_{x} \partial_{x} \phi-2 i A_{t} \partial_{t} \phi-\partial_{x}^{2} \phi \\
+& +3 z^{2} \partial_{z} \phi+\left(z^{3}-1\right) \partial_{z}^{2} \phi \\
+0= & \partial_{t}^{2} A_{x}-\partial_{t} \partial_{x} A_{t}-i\left(\phi \partial_{x} \bar{\phi}-\bar{\phi} \partial_{x} \phi\right)+2 A_{x} \phi \bar{\phi}+3 z^{2} \partial_{z} A_{x}+\left(z^{3}-1\right) \partial_{z}^{2} A_{x}, \\
+0= & \left(z^{3}-1\right) \partial_{z}^{2} A_{t}+3 z^{2} \partial_{z} A_{t}-\partial_{x}^{2} A_{t}+\partial_{t} \partial_{x} A_{x}+2 \bar{\phi} \phi A_{t}+i\left(\bar{\phi} \partial_{t} \phi-\Psi \partial_{t} \bar{\phi}\right), \\
+0= & \partial_{t} \partial_{z} A_{t}+i\left(\phi \partial_{z} \bar{\phi}-\bar{\phi} \partial_{z} \phi\right)-\partial_{z} \partial_{x} A_{x},
+\end{aligned}
+$$
+
+where the third one is the constraint equation and the last one reduces to the conserved equation for the boundary current when evaluated at the AdS boundary, i.e.,
+
+$$
+\partial_{t} \rho=-\partial_{x} j^{x}
+$$
+
+To specialize into the homogeneous phase diagram for our holographic model, we further make the following ansatz for our non-vanishing bulk matter fields
+
+$$
+\phi=\phi(z), A_{t}=A_{t}(z)
+$$
+
+Then the equations of motion for the static solution reduce to
+
+$$
+\begin{aligned}
+& 0=3 z^{2} \partial_{z} \phi+\left(z^{3}-1\right) \partial_{z}^{2} \phi+\left(z-A_{t}^{2}\right) \phi, \\
+& 0=2 A_{t} \phi \bar{\phi}+3 z^{2} \partial_{z} A_{t}+\left(z^{3}-1\right) \partial_{z}^{2} A_{t}, \\
+& 0=\phi \partial_{z} \bar{\phi}-\bar{\phi} \partial_{z} \phi
+\end{aligned}
+$$
+
+where the last equation implies that we can always choose a gauge to make $\phi$ real. It is not hard to see the above equations of motion have a trivial solution
+
+$$
+\phi=0, A_{t}=\mu
+$$
+
+which corresponds to the vacuum phase with zero particle density. On the other hand, to obtain the non-trivial solution dual to the superfluid phase, we are required to resort to pseudo-spectral method. As a demonstration, we here plot the nontrivial profile for $\phi$ and $A_{t}$ at $\mu=2$ in Figure 5. The variation of particle density and condensate with respect to the chemical potential is plotted in Figure 6, which indicates that the phase transition from the vacuum to a superfluid occurs at $\mu_{c}=1.715$. It is noteworthy that such a phenomenon is reminiscent of the recently observed quantum critical behavior of ultra-cold cesium atoms in an optical lattice across the vacuum to superfluid transition by tuning the chemical potential[36]. Moreover, the compactified dimension in the AdS soliton background can be naturally identified as the reduced dimension in optical lattices by the very steep harmonic potential as both mechanisms make the effective dimension of the system in consideration reduced in the low energy regime. On the other hand, note that the particle density shows up at the same time as our superfluid condensate, thus it is tempting to claim that this particle density $\rho$ is simply the superfluid density $\rho_{s}$. This claim is also consistent with the fact that we are working with
+![](https://cdn.mathpix.com/cropped/2023_06_01_e4e21f7112268ec22c17g-16.jpg?height=496&width=1520&top_left_y=262&top_left_x=300)
+
+Figure 5: The bulk profile for the scalar field and time component of gauge field at the chemical potential $\mu=2$.
+![](https://cdn.mathpix.com/cropped/2023_06_01_e4e21f7112268ec22c17g-16.jpg?height=480&width=1446&top_left_y=947&top_left_x=336)
+
+Figure 6: The variation of particle density and condensate with respect to the chemical potential, where we see the second order quantum phase transition take place at $\mu_{c}=1.715$.
+
+a zero temperature superfluid where the normal fluid component should disappear. As we will show later on by the linear response theory, this is actually the case.
+
+But to make sure that Figure 6 represents the genuine phase diagram for our holographic model, we are required to check whether the corresponding free energy density is the lowest in the grand canonical ensemble. By holography, the free energy density can be obtained from the renormalized on shell Lagrangian of matter fields as follows ${ }^{7}$
+
+$$
+\begin{aligned}
+F & =-\frac{1}{2}\left[\int d z \sqrt{-g} i\left(\bar{\Phi} D^{b} \Phi-\Phi \overline{D^{b} \Phi}\right) A_{b}-\left.\sqrt{-h} n_{a} A_{b} F^{a b}\right|_{z=0}\right] \\
+& =-\frac{1}{2} \mu \rho+\int d z\left(A_{t} \phi\right)^{2},
+\end{aligned}
+$$
+
+where we have made use of the source free boundary condition for the scalar field at the AdS boundary. As shown in Figure 7, the superfluid phase is the thermodynamically favored one
+
+${ }^{7}$ Here we have used $i S_{\text {Lorentzian }}=-S_{\text {Euclidean }}$ and $i t=\tau$ with $\tau$ the Euclidean time identified as the inverse of temperature.
+
+![](https://cdn.mathpix.com/cropped/2023_06_01_e4e21f7112268ec22c17g-17.jpg?height=501&width=770&top_left_y=259&top_left_x=669)
+
+Figure 7: The difference of free energy density for the superfluid phase from that for the vacuum phase.
+
+compared to the vacuum phase when the chemical potential is greater than the critical value. So we are done.
+
+### Linear response theory, Optical conductivity, and Superfluid density
+
+Now let us set up the linear response theory for the later calculation of the optical conductivity of our holographic model. To achieve this, we first decompose the field $\phi$ into its real and imaginary parts as
+
+$$
+\phi=\phi_{r}+i \phi_{i}
+$$
+
+and assume that the perturbation bulk fields take the following form
+
+$$
+\delta \phi_{r}=\delta \phi_{r}(z) e^{-i \omega t+i q x}, \delta \phi_{i}=\delta \phi_{i}(z) e^{-i \omega t+i q x}, \delta A_{t}=\delta A_{t}(z) e^{-i \omega t+i q x}, \delta A_{x}=\delta A_{x}(z) e^{-i \omega t+i q x},
+$$
+
+since the background solution is static and homogeneous. With this, the perturbation equations can be simplified as
+
+$$
+\begin{aligned}
+0= & -\omega^{2} \delta \phi_{r}+\left(z-A_{t}^{2}\right) \delta \phi_{r}-2 i \omega A_{t} \delta \phi_{i}+q^{2} \delta \phi_{r}+3 z^{2} \partial_{z} \delta \phi_{r}+\left(z^{3}-1\right) \partial_{z}^{2} \delta \phi_{r} \\
+& -2 A_{t} \phi_{r} \delta A_{t}, \\
+0= & -\omega^{2} \delta \phi_{i}+\left(z-A_{t}^{2}\right) \delta \phi_{i}+2 i \omega A_{t} \delta \phi_{r}+q^{2} \delta \phi_{i}+3 z^{2} \partial_{z} \delta \phi_{i}+\left(z^{3}-1\right) \partial_{z}^{2} \delta \phi_{i} \\
+& +i \omega \phi_{r} \delta A_{t}+i q \phi_{r} \delta A_{x}, \\
+0= & -\omega^{2} \delta A_{x}-\omega q \delta A_{t}+3 z^{2} \partial_{z} \delta A_{x}+\left(z^{3}-1\right) \partial_{z}^{2} \delta A_{x}+2 \phi_{r}^{2} \delta A_{x}-2 i q \phi_{r} \delta \phi_{i}, \\
+0= & \left(z^{3}-1\right) \partial_{z}^{2} \delta A_{t}+3 z^{2} \partial_{z} \delta A_{t}+q^{2} \delta A_{t}+\omega q \delta A_{x}+2 \phi_{r}^{2} \delta A_{t}+4 A_{t} \phi_{r} \delta \phi_{r} \\
+& +2 i \omega \phi_{r} \delta \phi_{i}, \\
+0= & -i \omega \partial_{z} \delta A_{t}-i q \partial_{z} \delta A_{x}-2\left(\partial_{z} \phi_{r} \delta \phi_{i}-\phi_{r} \partial_{z} \delta \phi_{i}\right),
+\end{aligned}
+$$
+
+where we have used $\phi_{i}=0$ for the background solution. Note that the gauge transformation
+
+$$
+A \rightarrow A+\nabla \theta, \phi \rightarrow \phi e^{i \theta}
+$$
+
+with
+
+$$
+\theta=\frac{1}{i} \lambda e^{-i \omega t+i q x}
+$$
+
+induces a spurious solution to the above perturbation equations as
+
+$$
+\delta A_{t}=-\lambda \omega, \delta A_{x}=\lambda q, \delta \phi=\lambda \phi
+$$
+
+We can remove such a redundancy by requiring $\delta A_{t}=0$ at the AdS boundary ${ }^{8}$. In addition, $\delta \phi$ will also be set to zero at the AdS boundary later on. On the other hand, taking into account the fact that the perturbation equation (5.22) will be automatically satisfied in the whole bulk once the other perturbations are satisfied ${ }^{9}$, we can forget about (5.22) from now on. That is to say, we can employ the pseudo-spectral method to obtain the desired numerical solution by combining the rest perturbation equations with the aforementioned boundary conditions as well as the other boundary conditions at the AdS boundary, depending on the specific problem we want to solve.
+
+In particular, to calculate the optical conductivity for our holographic model, we can simply focus on the $q=0$ mode and further impose $\delta A_{x}=1$ at the AdS boundary. Then the optical conductivity can be extracted by holography as
+
+$$
+\sigma(\omega)=\frac{\left.\partial_{z} \delta A_{x}\right|_{z=0}}{i \omega}
+$$
+
+for any positive frequency $\omega^{10}$. According to the perturbation equations, the whole calculation is much simplified because $\delta A_{x}$ decouples from the other perturbation bulk fields. We simply plot the imaginary part of the optical conductivity in Figure 8 for both vacuum and superfluid phase, because the real part vanishes due to the reality of the perturbation equation and boundary condition for $\delta A_{x}$. As it should be the case, the $\mathrm{DC}$ conductivity vanishes for the vacuum phase, but diverges for the superfluid phase due to the $\frac{1}{\omega}$ behavior of the imaginary part of optical conductivity by the Krames-Kronig relation
+
+$$
+\operatorname{Im}[\sigma(\omega)]=\frac{1}{\pi} \mathcal{P} \int_{-\infty}^{\infty} d \omega^{\prime} \frac{\operatorname{Re}\left[\sigma\left(\omega^{\prime}\right)\right]}{\omega-\omega^{\prime}}
+$$
+
+Furthermore, according to the hydrodynamical description of superfluid, the superfluid density $\rho_{s}$ can be obtained by fitting this zero pole as $\frac{\rho_{s}}{\mu \omega}[39,40,41]$. As expected, our numerics shows that the resultant superfluid density is exactly the same as the particle density within
+
+![](https://cdn.mathpix.com/cropped/2023_06_01_e4e21f7112268ec22c17g-19.jpg?height=458&width=808&top_left_y=259&top_left_x=301)
+
+$\omega$
+
+![](https://cdn.mathpix.com/cropped/2023_06_01_e4e21f7112268ec22c17g-19.jpg?height=458&width=718&top_left_y=264&top_left_x=1105)
+
+$\omega$
+
+Figure 8: The left panel is the imaginary part of optical conductivity for the vacuum phase, and the right panel is for the superfluid phase at $\mu=6.5$.
+
+our numerical accuracy. The other poles correspond to the gapped normal modes for $\delta A_{x}$, which we are not interested in since we are focusing on the low energy physics.
+
+Let us come back to the equality between the particle density and superfluid density. Although this numerical result is 100 percent reasonable from the physical perspective, it is highly non-trivial in the sense that the superfluid density comes from the linear response theory while the particle density is a quantity associated with the equilibrium state. So it is better to have an analytic understanding for this remarkable equality. Here we would like to develop an elegant proof for this equality by a boost trick. To this end, we are first required to realize $\rho_{s}=-\left.\mu \partial_{z} \delta A_{x}\right|_{z=0}$ with $\omega=0$. Such an $\omega=0$ perturbation can actually be implemented by a boost
+
+$$
+t=\frac{1}{\sqrt{1-v^{2}}}\left(t^{\prime}-v x^{\prime}\right), x=\frac{1}{\sqrt{1-v^{2}}}\left(x^{\prime}-v t^{\prime}\right)
+$$
+
+acting on the superfluid phase. Note that the background metric is invariant under such a boost. As a result, we end up with a new non-trivial solution as follows
+
+$$
+\phi^{\prime}=\phi, A_{t}^{\prime}=\frac{1}{\sqrt{1-v^{2}}} A_{t}, A_{x}^{\prime}=-\frac{v}{\sqrt{1-v^{2}}} A_{t}
+$$
+
+We expand this solution up to the linear order in $v$ as
+
+$$
+\phi^{\prime}=\phi, A_{t}^{\prime}=A_{t}, A_{x}^{\prime}=v A_{t}
+$$
+
+which means that the linear perturbation $\delta A_{x}$ is actually proportional to the background solution $A_{t}$. So we have $\rho_{s}=\rho$ immediately.
+
+${ }^{8}$ The only exception is the $\omega$ case, which can always be separately managed if necessary.
+
+${ }^{9}$ This result comes from the following two facts. One is related to Bianchi identity $0=\nabla_{a} v^{a}=$ $\frac{1}{\sqrt{-g}} \partial_{\mu}\left(\sqrt{-g} v^{\mu}\right)$ for Maxwell equation, whereby the $z$ component of Maxwell equation satisfies $\partial_{z}\left(\frac{v^{z}}{z^{4}}\right)=0$ if the rest equations of motion hold. The other is special to our holographic model, in which the readers are encouraged to show that the $z$ component of Maxwell equation turns out to be satisfied automatically at $z=1$ if the rest equations hold there.
+
+${ }^{10}$ Note that $\sigma(-\bar{\omega})=\overline{\sigma(\omega)}$, so we focus only on the positive frequency here.
+
+![](https://cdn.mathpix.com/cropped/2023_06_01_e4e21f7112268ec22c17g-20.jpg?height=482&width=724&top_left_y=263&top_left_x=711)
+
+Figure 9: The density plot of $\left|\frac{\operatorname{det}[\mathcal{L}(\omega)]^{\prime}}{\operatorname{det}[\mathcal{L}(\omega)]}\right|$ with $q=0.3$ for the superfluid phase at $\mu=6.5$. The normal modes can be identified by the peaks, where the red one denotes the hydrodynamic normal $\operatorname{mode} \omega_{0}=0.209$
+
+![](https://cdn.mathpix.com/cropped/2023_06_01_e4e21f7112268ec22c17g-20.jpg?height=482&width=727&top_left_y=987&top_left_x=710)
+
+Figure 10: The spectral plot of $\ln \left|\delta \hat{\phi}_{i}(\omega, 1)\right|$ with $q=0.3$ for the superfluid phase at $\mu=6.5$, where the initial data are chosen as $\delta \phi_{i}=z$ with all the other perturbations turned off. The normal modes can be identified by the peaks, whose locations are the same as those by the frequency domain analysis within our numerical accuracy.
+
+### Time domain analysis, Normal modes, and Sound speed
+
+In what follows we shall use linear response theory to calculate the speed of sound by focusing solely on the hydrodynamic spectrum of normal modes of the gapless Goldstone from the spontaneous symmetry breaking, which is obviously absent from the vacuum phase. As such, the perturbation fields are required to have Dirichlet boundary conditions at the AdS boundary. Then we cast the linear perturbation equations and boundary conditions into the form $\mathcal{L}(\omega) u=0$ with $u$ the perturbation fields evaluated at the grid points by pseudospectral method. The normal modes are obtained by the condition $\operatorname{det}[\mathcal{L}(\omega)]=0$, which can be further identified by the density plot $\left|\frac{\operatorname{det}[\mathcal{L}(\omega)]^{\prime}}{\operatorname{det}[\mathcal{L}(\omega)]}\right|$ with the prime the derivative with respect to $\omega$. We demonstrate such a density plot in Figure 9, where the hydrodynamic mode is simply the closest mode to the origin, marked in red. Besides such a frequency domain
+
+![](https://cdn.mathpix.com/cropped/2023_06_01_e4e21f7112268ec22c17g-21.jpg?height=502&width=757&top_left_y=264&top_left_x=684)
+
+Figure 11: The dispersion relation for the gapless Goldstone mode in the superfluid phase at $\mu=6.5$, where the sound speed $v_{s}=0.697$ is obtained by fitting the long wave modes with $\omega_{0}=v_{s} q$.
+
+![](https://cdn.mathpix.com/cropped/2023_06_01_e4e21f7112268ec22c17g-21.jpg?height=493&width=754&top_left_y=957&top_left_x=683)
+
+Figure 12: The variation of sound speed with respect to the chemical potential. When the chemical potential is much larger than the confining scale, the conformality is restored and the sound speed approaches the predicted value $\frac{1}{\sqrt{2}}$ by conformal field theory.
+
+analysis of spectrum of normal modes, there is an alternative called time domain analysis, which we would like to elaborate on below. We first cast the equations of motion into the following Hamiltonian formalism
+
+$$
+\begin{aligned}
+\partial_{t} \phi & =i A_{t} \phi+P \\
+\partial_{t} P & =i A_{t} P-\left(z+A_{x}^{2}+i \partial_{x} A_{x}\right) \phi-2 i A_{x} \partial_{x} \phi+\partial_{x}^{2} \phi-3 z^{2} \partial_{z} \phi+\left(1-z^{3}\right) \partial_{z}^{2} \phi \\
+\partial_{t} A_{x} & =\Pi_{x}+\partial_{x} A_{t} \\
+\partial_{t} \Pi_{x} & =i\left(\phi \partial_{x} \bar{\phi}-\bar{\phi} \partial_{x} \phi\right)-2 A_{x} \phi \bar{\phi}-3 z^{2} \partial_{z} A_{x}+\left(1-z^{3}\right) \partial_{z}^{2} A_{x} \\
+0 & =\left(z^{3}-1\right) \partial_{z}^{2} A_{t}+3 z^{2} \partial_{z} A_{t}+\partial_{x} \Pi_{x}-i(\bar{P} \phi-P \bar{\phi}) \\
+\partial_{t} \partial_{z} A_{t} & =-i\left(\phi \partial_{z} \bar{\phi}-\bar{\phi} \partial_{z} \phi\right)+\partial_{z} \partial_{x} A_{x}.
+\end{aligned}
+$$
+
+Then with the assumption that the perturbation bulk fields take the form as $\delta(t, z) e^{i q x}$, the perturbation equations on top of the superfluid phase
