@@ -16,3 +16,6 @@ position
 dbSNPID/# rsid - some dbSNPID are null (5308 have values out of 5375)
 what to do about genotype and Gene?
 do we create the embeddings from these columns or a subset?
+
+
+1_130_597_309
